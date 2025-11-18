@@ -9,6 +9,7 @@ import com.aee.sistema_aee.exception.ResourceNotFoundException;
 import com.aee.sistema_aee.mapper.ProfessorMapper;
 import com.aee.sistema_aee.repository.PessoaRepository;
 import com.aee.sistema_aee.repository.ProfessorRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +20,15 @@ public class ProfessorService
 {
     private final PessoaRepository pessoaRepository;
     private final ProfessorRepository professorRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ProfessorService(PessoaRepository pessoaRepository, ProfessorRepository professorRepository)
+    public ProfessorService(PessoaRepository pessoaRepository,
+                            ProfessorRepository professorRepository,
+                            PasswordEncoder passwordEncoder)
     {
         this.pessoaRepository = pessoaRepository;
         this.professorRepository = professorRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public ProfessorResponseDTO criarProfessor(ProfessorRequestDTO dto)
@@ -38,6 +43,8 @@ public class ProfessorService
         }
 
         Professor professorSalvar = ProfessorMapper.toEntity(dto);
+        String senhaCript = passwordEncoder.encode(dto.getSenha());
+        professorSalvar.setSenha(senhaCript);
         Professor professorSalvo = professorRepository.save(professorSalvar);
         return ProfessorMapper.toDTO(professorSalvo);
     }
