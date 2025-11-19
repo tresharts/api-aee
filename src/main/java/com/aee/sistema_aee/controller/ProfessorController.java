@@ -4,6 +4,9 @@ import com.aee.sistema_aee.dto.request.ProfessorRequestDTO;
 import com.aee.sistema_aee.dto.response.ProfessorResponseDTO;
 import com.aee.sistema_aee.service.ProfessorService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +37,10 @@ public class ProfessorController
     }
 
     @GetMapping
-    public List<ProfessorResponseDTO> listarTodosProfessores()
+    public Page<ProfessorResponseDTO> listarTodosProfessores(@PageableDefault(size = 10, sort = "nome")
+                                                                 Pageable pageable)
     {
-        return professorService.listarTodos();
+        return professorService.listarTodos(pageable);
     }
 
     public ProfessorResponseDTO atualizarProfessor(@PathVariable Long id, @Valid @RequestBody ProfessorRequestDTO dto)

@@ -4,6 +4,9 @@ import com.aee.sistema_aee.dto.request.AtividadeRequestDTO;
 import com.aee.sistema_aee.dto.response.AtividadeResponseDTO;
 import com.aee.sistema_aee.service.AtividadeService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +36,10 @@ public class AtividadeController
     }
 
     @GetMapping
-    public List<AtividadeResponseDTO> listarTodasAtividades()
+    public Page<AtividadeResponseDTO> listarTodasAtividades(@PageableDefault(size = 10, sort = "nome")
+                                                            Pageable pageable)
     {
-        return atividadeService.listarTodos();
+        return atividadeService.listarTodos(pageable);
     }
 
     public AtividadeResponseDTO atualizarAtividade(@PathVariable Long id,

@@ -10,6 +10,8 @@ import com.aee.sistema_aee.mapper.RelatorioMapper;
 import com.aee.sistema_aee.repository.AlunoRepository;
 import com.aee.sistema_aee.repository.ProfessorRepository;
 import com.aee.sistema_aee.repository.RelatorioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,13 +56,11 @@ public class RelatorioService
         return RelatorioMapper.toDTO(relatorioEncontrado);
     }
 
-    public List<RelatorioResponseDTO> listarTodos()
+    public Page<RelatorioResponseDTO> listarTodos(Pageable pageable)
     {
-        return relatorioRepository
-                .findAll()
-                .stream()
-                .map(RelatorioMapper::toDTO)
-                .toList();
+        Page<Relatorio> paginaDeRelatorio = relatorioRepository.findAll(pageable);
+
+        return paginaDeRelatorio.map(RelatorioMapper::toDTO);
     }
 
     public void deletarRelatorio(Long id)

@@ -4,6 +4,9 @@ import com.aee.sistema_aee.dto.request.PDIRequestDTO;
 import com.aee.sistema_aee.dto.response.PDIResponseDTO;
 import com.aee.sistema_aee.service.PDIService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +36,10 @@ public class PDIController
         return pdiService.buscarPorId(id);
     }
 
-    public List<PDIResponseDTO> listarTodosPDIs()
+    public Page<PDIResponseDTO> listarTodosPDIs(@PageableDefault(size = 10, sort = "nome")
+                                                Pageable pageable)
     {
-        return pdiService.listarTodos();
+        return pdiService.listarTodos(pageable);
     }
 
     @GetMapping("/aluno/{alunoId}")

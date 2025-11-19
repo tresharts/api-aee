@@ -9,6 +9,8 @@ import com.aee.sistema_aee.exception.ResourceNotFoundException;
 import com.aee.sistema_aee.mapper.PDIMapper;
 import com.aee.sistema_aee.repository.AlunoRepository;
 import com.aee.sistema_aee.repository.PDIRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,13 +64,11 @@ public class PDIService
         return PDIMapper.toDTO(pdiEncontrado);
     }
 
-    public List<PDIResponseDTO> listarTodos()
+    public Page<PDIResponseDTO> listarTodos(Pageable pageable)
     {
-        return pdiRepository
-                .findAll()
-                .stream()
-                .map(PDIMapper::toDTO)
-                .toList();
+        Page<PDI> paginaDePDI = pdiRepository.findAll(pageable);
+
+        return paginaDePDI.map(PDIMapper::toDTO);
     }
 
     public PDIResponseDTO atualizarPDI(Long id, PDIRequestDTO dto)

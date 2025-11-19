@@ -13,6 +13,8 @@ import com.aee.sistema_aee.repository.AlunoRepository;
 import com.aee.sistema_aee.repository.PessoaRepository;
 import com.aee.sistema_aee.repository.ProfessorRepository;
 import com.aee.sistema_aee.repository.ResponsavelRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,13 +75,10 @@ public class AlunoService
         return AlunoMapper.toDTO(alunoEncontrado);
     }
 
-    public List<AlunoResponseDTO> listarTodos()
+    public Page<AlunoResponseDTO> listarTodos(Pageable pageable)
     {
-        return alunoRepository
-                .findAll()
-                .stream()
-                .map(AlunoMapper::toDTO)
-                .toList();
+        Page<Aluno> paginaDeAlunos = alunoRepository.findAll(pageable);
+        return paginaDeAlunos.map(AlunoMapper::toDTO);
     }
 
     public AlunoResponseDTO atualizarAluno(Long id, AlunoRequestDTO dto)

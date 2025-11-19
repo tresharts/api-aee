@@ -10,6 +10,8 @@ import com.aee.sistema_aee.mapper.AtividadeMapper;
 import com.aee.sistema_aee.repository.AlunoRepository;
 import com.aee.sistema_aee.repository.AtividadeRepository;
 import com.aee.sistema_aee.repository.ProfessorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,13 +57,11 @@ public class AtividadeService
         return AtividadeMapper.toDTO(atividadeEncontrada);
     }
 
-    public List<AtividadeResponseDTO> listarTodos()
+    public Page<AtividadeResponseDTO> listarTodos(Pageable pageable)
     {
-        return atividadeRepository
-                .findAll()
-                .stream()
-                .map(AtividadeMapper::toDTO)
-                .toList();
+        Page<Atividade> paginaDeAtividade = atividadeRepository.findAll(pageable);
+
+        return paginaDeAtividade.map(AtividadeMapper::toDTO);
     }
 
     public AtividadeResponseDTO atualizarAtividade(Long id, AtividadeRequestDTO dto)

@@ -11,8 +11,8 @@ import com.aee.sistema_aee.repository.PessoaRepository;
 import com.aee.sistema_aee.repository.ProfessorRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 @Service
@@ -58,13 +58,11 @@ public class ProfessorService
         return ProfessorMapper.toDTO(professorEncontrado);
     }
 
-    public List<ProfessorResponseDTO> listarTodos()
+    public Page<ProfessorResponseDTO> listarTodos(Pageable pageable)
     {
-        return professorRepository
-                .findAll()
-                .stream()
-                .map(ProfessorMapper::toDTO)
-                .toList();
+        Page<Professor> paginaDeProfessores = professorRepository.findAll(pageable);
+
+        return paginaDeProfessores.map(ProfessorMapper::toDTO);
     }
 
     public ProfessorResponseDTO atualizarProfessor(Long id, ProfessorRequestDTO dto)

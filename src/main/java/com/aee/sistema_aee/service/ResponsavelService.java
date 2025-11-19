@@ -9,6 +9,8 @@ import com.aee.sistema_aee.exception.ResourceNotFoundException;
 import com.aee.sistema_aee.mapper.ResponsavelMapper;
 import com.aee.sistema_aee.repository.PessoaRepository;
 import com.aee.sistema_aee.repository.ResponsavelRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,13 +54,11 @@ public class ResponsavelService
         return ResponsavelMapper.toDTO(responsavelEncontrado);
     }
 
-    public List<ResponsavelResponseDTO> listarTodos()
+    public Page<ResponsavelResponseDTO> listarTodos(Pageable pageable)
     {
-        return responsavelRepository
-                .findAll()
-                .stream()
-                .map(ResponsavelMapper::toDTO)
-                .toList();
+        Page<Responsavel> paginaDeResponsavel = responsavelRepository.findAll(pageable);
+
+        return paginaDeResponsavel.map(ResponsavelMapper::toDTO);
     }
 
     public ResponsavelResponseDTO atualizarResponsavel(Long id, ResponsavelRequestDTO dto)

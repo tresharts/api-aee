@@ -4,6 +4,9 @@ import com.aee.sistema_aee.dto.request.AlunoRequestDTO;
 import com.aee.sistema_aee.dto.response.AlunoResponseDTO;
 import com.aee.sistema_aee.service.AlunoService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +36,10 @@ public class AlunoController
     }
 
     @GetMapping
-    public List<AlunoResponseDTO> listarTodosAlunos()
+    public Page<AlunoResponseDTO> listarTodosAlunos(@PageableDefault(size = 10, sort = "nome")
+                                                        Pageable pageable)
     {
-        return alunoService.listarTodos();
+        return alunoService.listarTodos(pageable);
     }
 
     @PutMapping("/{id}")

@@ -4,6 +4,9 @@ import com.aee.sistema_aee.dto.request.ResponsavelRequestDTO;
 import com.aee.sistema_aee.dto.response.ResponsavelResponseDTO;
 import com.aee.sistema_aee.service.ResponsavelService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +36,10 @@ public class ResponsavelController
     }
 
     @GetMapping
-    public List<ResponsavelResponseDTO> listarTodosResponsaveis()
+    public Page<ResponsavelResponseDTO> listarTodosResponsaveis(@PageableDefault(size = 10, sort = "nome")
+                                                                    Pageable pageable)
     {
-        return responsavelService.listarTodos();
+        return responsavelService.listarTodos(pageable);
     }
 
     public ResponsavelResponseDTO atualizarResponsavel(@PathVariable Long id,
