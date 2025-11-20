@@ -2,6 +2,18 @@ version: '3.8'
 
 services:
 
+  app-backend:
+    build: .
+    container_name: aee-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+    environment:
+      DB_HOST: postgres-db
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+
   postgres-db:
     image: postgres:15
     container_name: aee-postgres-db

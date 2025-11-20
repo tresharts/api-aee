@@ -9,5 +9,4 @@ public class SistemaAeeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SistemaAeeApplication.class, args);
 	}
-
 }
