@@ -15,12 +15,14 @@ Bem-vindo à documentação oficial da API do Sistema AEE. Este projeto fornece 
 
 ## 🛠️ Como Rodar o Projeto
 
-Você não precisa ter Java ou PostgreSQL instalados na sua máquina. O projeto é totalmente conteinerizado.
+Este projeto utiliza **Docker** para garantir que você não precise instalar Java ou Maven na sua máquina. O container se encarrega de compilar o código e rodar a aplicação.
 
 ### Pré-requisitos
-* **Docker** e **Docker Compose** instalados.
 
-### Passo a Passo
+* **Docker** e **Docker Compose** instalados.
+* **Git** (para clonar o repositório).
+
+### Passo a Passo (Use o terminal do seu editor de código ou de seu sistema operacional)
 
 1.  **Clone o repositório:**
     ```bash
@@ -36,15 +38,29 @@ Você não precisa ter Java ou PostgreSQL instalados na sua máquina. O projeto 
     ```
 
 3.  **Suba a aplicação:**
-    Execute o comando abaixo para construir o `.jar`, criar as imagens e subir os containers:
+    Execute o comando abaixo. O Docker irá baixar as dependências, compilar o Java e iniciar o Banco de          Dados e a API.
+    
+    *Obs: A primeira execução pode demorar alguns minutos pois fará o download do Maven e das dependências.*
+
     ```bash
-    docker-compose up -d --build
+    sudo docker-compose up -d --build
     ```
 
 4.  **Pronto!**
     A API estará rodando em: `http://localhost:8080`
 
----
+    ---
+
+### 🛑 Comandos Úteis
+
+* **Parar a aplicação:**
+    ```bash
+    sudo docker-compose down
+    ```
+* **Ver os logs (para depuração):**
+    ```bash
+    sudo docker-compose logs -f
+    ```
 
 ## 📖 Documentação da API (Swagger)
 
